@@ -11,7 +11,8 @@ services:
     restart: always
   codimd:
     # you can use image or custom build below,
-    image: nabo.codimd.dev/hackmdio/hackmd:2.5.3
+    name: codi
+    image: codi:test #nabo.codimd.dev/hackmdio/hackmd:2.5.3
     # build:
     #   context: ..
     #   dockerfile: ./deployments/Dockerfile

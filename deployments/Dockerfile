@@ -26,19 +26,19 @@ RUN rm -f /etc/apt/sources.list.d/*.list && \
     echo "deb http://deb.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list && \
     echo "deb http://deb.debian.org/debian buster-updates main" >> /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends cron ldap-utils && \
+    apt-get install -y --no-install-recommends ldap-utils && \
     rm -rf /var/lib/apt/lists/*
-COPY --from=BUILD /home/hackmd/app/deployments/Cronjob /etc/cron.d/checkusers
-RUN chmod +x /etc/cron.d/checkusers
-RUN touch /var/log/cron.log
-RUN chmod u+s /usr/sbin/cron
-#RUN env > /etc/environment
-RUN crontab /etc/cron.d/checkusers
-#RUN cron
+#COPY --from=BUILD /home/hackmd/app/deployments/Cronjob /etc/cron.d/checkusers
+#RUN chmod +x /etc/cron.d/checkusers
+#RUN touch /var/log/cron.log
+#RUN chmod u+s /usr/sbin/cron
+##RUN env > /etc/environment
+#RUN crontab /etc/cron.d/checkusers
+##RUN cron
 USER hackmd
-ENV QT_QPA_PLATFORM=offscreen
+#ENV QT_QPA_PLATFORM=offscreen
 WORKDIR /home/hackmd/app
 COPY --chown=1500:1500 --from=BUILD /home/hackmd/app .
 RUN npm install --production && npm cache clean --force && rm -rf /tmp/{core-js-banners,phantomjs}
-EXPOSE 80
+EXPOSE 3000
 ENTRYPOINT ["/home/hackmd/app/docker-entrypoint.sh"]
